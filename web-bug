@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Attack Menu</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+    * {
+      outline: none;
+    }
+
+    body {
+      background-color: #000;
+      color: white;
+      font-family: 'Orbitron', sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .login-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-image: url('https://files.catbox.moe/ko42qt.png');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .login-box {
+      background-color: rgba(0, 0, 0, 0.8);
+      border: 2px solid red;
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      width: 300px;
+    }
+
+    .login-box h2 {
+      margin-bottom: 20px;
+      color: red;
+    }
+
+    .login-input {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      border: 1px solid red;
+      background: black;
+      color: red;
+      font-size: 14px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .login-btn {
+      padding: 10px 20px;
+      background-color: red;
+      color: black;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-family: 'Orbitron', sans-serif;
+      cursor: pointer;
+    }
+
+    .top-bar {
+      background-color: #8B0000;
+      padding: 20px;
+      font-size: 24px;
+      color: white;
+    }
+
+    .logo {
+      margin: 50px auto 20px;
+    }
+
+    .attack-title {
+      font-size: 28px;
+      color: red;
+      margin-bottom: 20px;
+    }
+
+    .input-box {
+      display: block;
+      margin: 0 auto 25px;
+      padding: 15px;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 15px;
+      border: 2px solid red;
+      background: black;
+      color: red;
+      font-size: 16px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .input-box:focus {
+      border-color: red;
+      box-shadow: none;
+    }
+
+    .type-bug-btn {
+      margin: 0 auto 15px;
+      padding: 15px;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 15px;
+      border: 2px solid red;
+      background: black;
+      color: red;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .bug-menu {
+      display: none;
+      width: 80%;
+      max-width: 400px;
+      margin: 0 auto 20px;
+      text-align: left;
+      border-radius: 15px;
+      border: 2px solid red;
+      background: black;
+      overflow: hidden;
+    }
+
+    .bug-item {
+      padding: 12px 15px;
+      color: red;
+      border-bottom: 1px solid red;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .bug-item:last-child {
+      border-bottom: none;
+    }
+
+    .bug-item:hover {
+      background-color: #111;
+    }
+
+    .send-btn {
+      margin-top: 10px;
+      padding: 15px;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 15px;
+      background-color: #8B0000;
+      color: violet;
+      border: none;
+      font-size: 18px;
+      font-family: 'Orbitron', sans-serif;
+      cursor: pointer;
+    }
+
+    .selected-type {
+      font-size: 14px;
+      color: lime;
+      margin-top: 5px;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .popup-box {
+      background-color: #111;
+      border: 2px solid red;
+      border-radius: 20px;
+      padding: 30px;
+      width: 80%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .popup-box h3 {
+      color: #00FF00;
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .popup-box p {
+      color: white;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .ok-btn {
+      background-color: black;
+      border: 1px solid red;
+      color: red;
+      padding: 10px 25px;
+      font-family: 'Orbitron', sans-serif;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    /* Hide attack page until login done */
+    #attackPage {
+      display: none;
+    }
+
+    #attackPage.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Page -->
+  <div class="login-container" id="loginPage">
+    <div class="login-box">
+      <h2>Login Access</h2>
+      <input type="text" id="username" class="login-input" placeholder="Username">
+      <input type="password" id="password" class="login-input" placeholder="Password">
+      <button class="login-btn" onclick="login()">LOGIN</button>
+    </div>
+  </div>
+
+  <!-- Attack Page -->
+  <div id="attackPage">
+    <div class="top-bar">Attack Menu</div>
+
+    <div class="logo">
+      <img src="https://files.catbox.moe/c3mhg4.jpg" alt="silent logo" width="130">
+    </div>
+
+    <div class="attack-title">Attack Menu</div>
+
+    <input type="text" id="targetNumber" class="input-box" placeholder="Target number (e.g. +62xxxxxxx)">
+
+    <div class="type-bug-btn" onclick="toggleBugMenu()">Type Bug ♡</div>
+
+    <div class="bug-menu" id="bugMenu">
+      <div class="bug-item" onclick="selectBug('Combo All')">Combo All</div>
+      <div class="bug-item" onclick="selectBug('Crash Force')">Crash Force</div>
+      <div class="bug-item" onclick="selectBug('Hard Delay Super')">Hard Delay Super</div>
+      <div class="bug-item" onclick="selectBug('IOS Crash')">IOS CRASH</div>
+      <div class="bug-item" onclick="selectBug('Android UI Killer')">Android Crash</div>
+    </div>
+
+    <div class="selected-type" id="selectedBug"></div>
+
+    <button class="send-btn" onclick="sendBug()">▶ SEND BUG</button>
+
+    <!-- Popup -->
+    <div class="overlay" id="popupOverlay">
+      <div class="popup-box">
+        <h3>✅ Success</h3>
+        <p id="popupText">Bug sent successfully.</p>
+        <button class="ok-btn" onclick="closePopup()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    let bugMenuOpen = false;
+    let selectedBugType = "";
+
+    function toggleBugMenu() {
+      const menu = document.getElementById("bugMenu");
+      menu.style.display = bugMenuOpen ? "none" : "block";
+      bugMenuOpen = !bugMenuOpen;
+    }
+
+    function selectBug(bugName) {
+      selectedBugType = bugName;
+      document.getElementById("selectedBug").innerText = `Selected: ${bugName}`;
+      document.getElementById("bugMenu").style.display = "none";
+      bugMenuOpen = false;
+    }
+
+    function sendBug() {
+      const number = document.getElementById("targetNumber").value;
+      if (!number) {
+        alert("Please enter target number!");
+        return;
+      }
+
+      if (!selectedBugType) {
+        alert("Please select a bug type!");
+        return;
+      }
+
+      const popup = document.getElementById("popupOverlay");
+      const text = document.getElementById("popupText");
+      text.innerText = `Bug "${selectedBugType}" sent to ${number} successfully.`;
+      popup.style.display = "flex";
+    }
+
+    function closePopup() {
+      document.getElementById("popupOverlay").style.display = "none";
+    }
+
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      if (user === "herysuhu" && pass === "herysuhu1") {
+        const loginPage = document.getElementById("loginPage");
+        loginPage.parentNode.removeChild(loginPage); // Remove login completely
+        document.getElementById("attackPage").classList.add("active");
+      } else {
+        alert("Login failed! Username or password incorrect.");
+      }
+    }
+  </script>
+</body>
+</html>
